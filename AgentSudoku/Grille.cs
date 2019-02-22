@@ -8,7 +8,7 @@ namespace AgentSudoku
 {
     class Grille
     {
-        List<Case> cases;
+        public List<Case> cases { get; set; }
         
         public Grille()
         {
@@ -67,5 +67,80 @@ namespace AgentSudoku
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Retourne vrai si toutes les cases possèdent une valeur.
+        /// </summary>
+        public bool IsComplete()
+        {
+            foreach(Case box in cases)
+            {
+                if(box.Value == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Retourne vrai si toutes les valeurs attribuées sont valides
+        /// </summary>
+        public bool IsValid()
+        {
+            foreach(Case box in cases)
+            {
+                if(box.Value != 0)
+                {
+                    foreach(Case box2 in cases)
+                    {
+                        if(box != box2)
+                        {
+                            if(box.PosX == box2.PosX && box.Value == box2.Value)
+                            {
+                                return false;
+                            }
+                            if (box.PosY == box2.PosY && box.Value == box2.Value)
+                            {
+                                return false;
+                            }
+                            if (box.GetRegion() == box2.GetRegion() && box.Value == box2.Value)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return true;
+
+        }
+
+        public void DefinePossibleValues(Case box)
+        {
+            List<int> possibleValues = new List<int>{1,2,3,4,5,6,7,8,9};
+
+            foreach(Case box2 in cases)
+            {
+                if (box != box2)
+                {
+                    if (box.PosX == box2.PosX && box2.Value != 0)
+                    {
+                        possibleValues.Remove(box2.Value);
+                    }
+                    if (box.PosY == box2.PosY && box2.Value != 0)
+                    {
+                        possibleValues.Remove(box2.Value);
+                    }
+                    if (box.GetRegion() == box2.GetRegion() && box2.Value != 0)
+                    {
+                        possibleValues.Remove(box2.Value);
+                    }
+                }
+            }
+
+            box.PossibleValues = possibleValues;
+        }
     }
 }

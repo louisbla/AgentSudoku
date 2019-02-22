@@ -11,6 +11,7 @@ namespace AgentSudoku
         public int PosX { get; set; }
         public int PosY { get; set; }
         public int Value { get; set; }
+        public List<int> PossibleValues { get; set; }
 
         /// <param name="indexCase">Index de la case [0-80]</param>
         public Case(int value, int indexCase)
@@ -25,7 +26,7 @@ namespace AgentSudoku
         /// </summary>
         public int GetRegion()
         {
-            return 3 * PosX / 3 + PosY / 3;
+            return 3 * (PosX / 3) + PosY / 3;
         }
 
     }

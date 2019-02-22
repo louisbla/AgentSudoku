@@ -15,11 +15,14 @@ namespace AgentSudoku
         /// <returns></returns>
         public static Grille BackTrackingSearch(Grille grille)
         {
-
-
-
-
             return new Grille();
+            //return recursive_Backtracking_Search(grille);
+            
+        }
+
+        private static Grille Recursive_Backtracking_Search(Grille grille)
+        {
+            throw new NotImplementedException();
         }
     }
 }
