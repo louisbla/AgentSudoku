@@ -10,12 +10,14 @@ namespace AgentSudoku
     {
         public int PosX { get; set; }
         public int PosY { get; set; }
+        public int Value { get; set; }
 
         /// <param name="indexCase">Index de la case [0-80]</param>
-        public Case(int indexCase)
+        public Case(int value, int indexCase)
         {
             PosX = indexCase % 9;
             PosY = indexCase / 9;
+            this.Value = value;
         }
 
         /// <summary>

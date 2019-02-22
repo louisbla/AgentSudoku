@@ -12,6 +12,11 @@ namespace AgentSudoku
         {
             Console.WriteLine("Hello");
 
+            Grille grille = new Grille();
+            grille.GetGrilleFromFile("sudokus.txt", 0);
+            grille.AfficherGrille();
+
+            Console.ReadLine();
         }
     }
 }

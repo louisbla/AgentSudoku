@@ -15,9 +15,49 @@ namespace AgentSudoku
             cases = new List<Case>();
         }
 
-        public void GetGrilleFromFile(String file)
+        /// <summary>
+        /// Read the file and extracts the sudoku of the corresponding line
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="line"></param>
+        public void GetGrilleFromFile(String file, int line)
         {
-            string[] lines = System.IO.File.ReadAllLines(@"sudokus.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"../../sudokus.txt");
+
+            string sudoku = lines[line];
+
+            CharEnumerator enumerator = sudoku.GetEnumerator();
+            int i = 0;
+            while (enumerator.MoveNext())
+            {
+                cases.Add(new Case(enumerator.Current - 48, i));
+                i++;
+            }
+        }
+
+        public void AfficherGrille()
+        {
+            string line = "";
+            int index = 0;
+
+            for(int i = 0; i < 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    line += cases[index].Value + " ";
+                    if(j == 2 || j == 5)
+                    {
+                        line += "| ";
+                    }
+                    index++;
+                }
+                Console.WriteLine(line);
+                if(i == 2 || i == 5)
+                {
+                    Console.WriteLine("---------------------");
+                }
+                line = "";
+            }
         }
 
     }
