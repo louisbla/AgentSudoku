@@ -16,6 +16,10 @@ namespace AgentSudoku
             grille.GetGrilleFromFile("sudokus.txt", 0);
             grille.AfficherGrille();
 
+            Grille solution = Resolver.BackTrackingSearch(grille);
+
+            solution.AfficherGrille();
+
             Console.ReadLine();
         }
     }

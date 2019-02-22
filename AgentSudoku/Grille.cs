@@ -13,6 +13,10 @@ namespace AgentSudoku
         public Grille()
         {
             cases = new List<Case>();
+            for(int i = 0; i < 81; i++)
+            {
+                cases.Add(new Case(0, i));
+            }
         }
 
         /// <summary>
@@ -22,6 +26,7 @@ namespace AgentSudoku
         /// <param name="line"></param>
         public void GetGrilleFromFile(String file, int line)
         {
+            cases.Clear();
             string[] lines = System.IO.File.ReadAllLines(@"../../sudokus.txt");
 
             string sudoku = lines[line];
@@ -58,6 +63,8 @@ namespace AgentSudoku
                 }
                 line = "";
             }
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
     }
