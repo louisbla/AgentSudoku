@@ -21,6 +21,20 @@ namespace AgentSudoku
             this.Value = value;
         }
 
+        public Case(Case box)
+        {
+            PosX = box.PosX;
+            PosY = box.PosY;
+            Value = box.Value;
+            if(box.PossibleValues != null){
+                PossibleValues = new List<int>();
+                foreach (int value in box.PossibleValues)
+                {
+                    PossibleValues.Add(value);
+                }
+            }
+        }
+
         /// <summary>
         /// Retourne le numéro de la région de la case
         /// </summary>

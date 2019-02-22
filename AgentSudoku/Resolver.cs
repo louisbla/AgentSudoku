@@ -15,7 +15,12 @@ namespace AgentSudoku
         /// <returns></returns>
         public static Grille BackTrackingSearch(Grille grille)
         {
-            return new Grille();
+            //On créé une copie de la grille de départ
+            Grille tempGrille = new Grille(grille);
+
+
+            return grille;
+            
             //return recursive_Backtracking_Search(grille);
             
         }

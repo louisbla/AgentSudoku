@@ -8,6 +8,8 @@ namespace AgentSudoku
 {
     class Grille
     {
+        private Grille grille;
+
         public List<Case> cases { get; set; }
         
         public Grille()
@@ -16,6 +18,16 @@ namespace AgentSudoku
             for(int i = 0; i < 81; i++)
             {
                 cases.Add(new Case(0, i));
+            }
+        }
+
+        public Grille(Grille grille)
+        {
+            this.grille = grille;
+            cases = new List<Case>();
+            for (int i = 0; i < 81; i++)
+            {
+                cases.Add(new Case(grille.cases[i]));
             }
         }
 
@@ -117,7 +129,7 @@ namespace AgentSudoku
 
         }
 
-        public void DefinePossibleValues(Case box)
+        public void DefinePossibleValuesOfABox(Case box)
         {
             List<int> possibleValues = new List<int>{1,2,3,4,5,6,7,8,9};
 
@@ -141,6 +153,29 @@ namespace AgentSudoku
             }
 
             box.PossibleValues = possibleValues;
+        }
+
+        public void DefinePossibleValuesAllBoxes()
+        {
+            foreach (Case box in cases)
+            {
+                DefinePossibleValuesOfABox(box);
+            }
+        }
+
+        /// <summary>
+        /// Return false if a box has no possible move
+        /// </summary>
+        public bool IsThereAPossibleMoveForEachBox()
+        {
+            foreach(Case box in cases)
+            {
+                if(box.PossibleValues.Count == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

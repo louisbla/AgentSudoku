@@ -17,9 +17,9 @@ namespace AgentSudoku
             grille.AfficherGrille();
 
             Console.WriteLine("valide = " + grille.IsValid());
-            grille.DefinePossibleValues(grille.cases[0]);
+            grille.DefinePossibleValuesAllBoxes();
 
-            Console.WriteLine("possible values of case 0 : " + grille.cases[0].PossibleValues);
+            Console.WriteLine("possible move ? : " + grille.IsThereAPossibleMoveForEachBox());
 
             Grille solution = Resolver.BackTrackingSearch(grille);
 
