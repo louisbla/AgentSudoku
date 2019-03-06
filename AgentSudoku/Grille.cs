@@ -38,18 +38,18 @@ namespace AgentSudoku
         /// <param name="line"></param>
         public void GetGrilleFromFile(String file, int line)
         {
-            cases.Clear();
-            string[] lines = System.IO.File.ReadAllLines(@"../../sudokus.txt");
+                cases.Clear();
+                string[] lines = System.IO.File.ReadAllLines(@"../../sudokus.txt");
 
-            string sudoku = lines[line];
+                string sudoku = lines[line];
 
-            CharEnumerator enumerator = sudoku.GetEnumerator();
-            int i = 0;
-            while (enumerator.MoveNext())
-            {
-                cases.Add(new Case(enumerator.Current - 48, i));
-                i++;
-            }
+                CharEnumerator enumerator = sudoku.GetEnumerator();
+                int i = 0;
+                while (enumerator.MoveNext())
+                {
+                    cases.Add(new Case(enumerator.Current - 48, i));
+                    i++;
+                }
         }
 
         public int GetNbOfPossibleValues()
