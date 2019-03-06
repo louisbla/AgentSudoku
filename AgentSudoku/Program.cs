@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,21 +11,29 @@ namespace AgentSudoku
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello");
-
             Grille grille = new Grille();
             grille.GetGrilleFromFile("sudokus.txt", 0);
             grille.AfficherGrille();
 
-            Console.WriteLine("valide = " + grille.IsValid());
-            grille.DefinePossibleValuesAllBoxes();
-
-            Console.WriteLine("possible move ? : " + grille.IsThereAPossibleMoveForEachBox());
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             Grille solution = Resolver.BackTrackingSearch(grille);
 
-            solution.AfficherGrille();
+            stopwatch.Stop();
+            Console.WriteLine("Temps de résolution : " + stopwatch.Elapsed.TotalMilliseconds + " ms");
 
+            if (solution != null)
+            {
+                Console.WriteLine("Solution trouvée : ");
+                solution.AfficherGrille();
+            }
+            else
+            {
+                Console.WriteLine("Pas de solution trouvée.");
+            }
+
+            Console.WriteLine("Press 'Enter' to exit");
             Console.ReadLine();
         }
     }

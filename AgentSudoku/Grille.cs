@@ -52,6 +52,18 @@ namespace AgentSudoku
             }
         }
 
+        public int GetNbOfPossibleValues()
+        {
+            int nbPossibleValues = 0;
+
+            foreach (Case box in cases)
+            {
+                nbPossibleValues += box.PossibleValues.Count;
+            }
+
+            return nbPossibleValues;
+        }
+
         public void AfficherGrille()
         {
             string line = "";
@@ -129,6 +141,9 @@ namespace AgentSudoku
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void DefinePossibleValuesOfABox(Case box)
         {
             List<int> possibleValues = new List<int>{1,2,3,4,5,6,7,8,9};
@@ -155,6 +170,9 @@ namespace AgentSudoku
             box.PossibleValues = possibleValues;
         }
 
+        /// <summary>
+        /// Pour chaque case de la grille, met à jour les valeurs possibles.
+        /// </summary>
         public void DefinePossibleValuesAllBoxes()
         {
             foreach (Case box in cases)
