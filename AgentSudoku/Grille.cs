@@ -8,14 +8,17 @@ namespace AgentSudoku
 {
     class Grille
     {
-        private Grille grille;
-
         public List<Case> cases { get; set; }
         
         public Grille()
         {
+            init();
+        }
+
+        private void init()
+        {
             cases = new List<Case>();
-            for(int i = 0; i < 81; i++)
+            for (int i = 0; i < 81; i++)
             {
                 cases.Add(new Case(0, i));
             }
@@ -23,7 +26,6 @@ namespace AgentSudoku
 
         public Grille(Grille grille)
         {
-            this.grille = grille;
             cases = new List<Case>();
             for (int i = 0; i < 81; i++)
             {
@@ -34,12 +36,14 @@ namespace AgentSudoku
         /// <summary>
         /// Read the file and extracts the sudoku of the corresponding line
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="line"></param>
-        public void GetGrilleFromFile(String file, int line)
+        public static Grille GetGrilleFromFile(String file, int line)
         {
-                cases.Clear();
-                string[] lines = System.IO.File.ReadAllLines(@"../../sudokus.txt");
+            Grille grille = new Grille();
+
+            try
+            {
+                grille.cases.Clear();
+                string[] lines = System.IO.File.ReadAllLines(file);
 
                 string sudoku = lines[line];
 
@@ -47,11 +51,22 @@ namespace AgentSudoku
                 int i = 0;
                 while (enumerator.MoveNext())
                 {
-                    cases.Add(new Case(enumerator.Current - 48, i));
+                    grille.cases.Add(new Case(enumerator.Current - 48, i));
                     i++;
                 }
+            }catch(System.IO.FileNotFoundException e)
+            {
+                Console.WriteLine("Fichier non trouvé. Le fichier doit être nommé 'sudokus.txt' et être " +
+                    "placé deux dossiers au dessus du dossier debug");
+                return null;
+            }
+            return grille;
         }
 
+        /// <summary>
+        /// Retourne le nombre de valeurs possibles pour la totalité des cases.
+        /// Il s'agit en quelques sortes de la fitness de la grille.
+        /// </summary>
         public int GetNbOfPossibleValues()
         {
             int nbPossibleValues = 0;
@@ -142,9 +157,9 @@ namespace AgentSudoku
         }
 
         /// <summary>
-        /// 
+        /// Met a jour les valeurs possibles de la case passée en paramètre.
         /// </summary>
-        public void DefinePossibleValuesOfABox(Case box)
+        private void DefinePossibleValuesOfABox(Case box)
         {
             List<int> possibleValues = new List<int>{1,2,3,4,5,6,7,8,9};
 
@@ -181,19 +196,5 @@ namespace AgentSudoku
             }
         }
 
-        /// <summary>
-        /// Return false if a box has no possible move
-        /// </summary>
-        public bool IsThereAPossibleMoveForEachBox()
-        {
-            foreach(Case box in cases)
-            {
-                if(box.PossibleValues.Count == 0)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 }

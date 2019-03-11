@@ -11,26 +11,30 @@ namespace AgentSudoku
     {
         static void Main(string[] args)
         {
-            Grille grille = new Grille();
-            grille.GetGrilleFromFile("sudokus.txt", 0);
-            grille.AfficherGrille();
+            Console.WriteLine("Grille de départ :");
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            Grille solution = Resolver.BackTrackingSearch(grille);
-
-            stopwatch.Stop();
-            Console.WriteLine("Temps de résolution : " + stopwatch.Elapsed.TotalMilliseconds + " ms");
-
-            if (solution != null)
+            Grille grille = Grille.GetGrilleFromFile("../../sudokus.txt", 0);
+            if (grille != null)
             {
-                Console.WriteLine("Solution trouvée : ");
-                solution.AfficherGrille();
-            }
-            else
-            {
-                Console.WriteLine("Pas de solution trouvée.");
+                grille.AfficherGrille();
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                Grille solution = Resolver.BackTrackingSearch(grille);
+
+                stopwatch.Stop();
+                Console.WriteLine("Temps de résolution : " + stopwatch.Elapsed.TotalMilliseconds + " ms");
+
+                if (solution != null)
+                {
+                    Console.WriteLine("Solution trouvée : ");
+                    solution.AfficherGrille();
+                }
+                else
+                {
+                    Console.WriteLine("Pas de solution trouvée.");
+                }
             }
 
             Console.WriteLine("Press 'Enter' to exit");

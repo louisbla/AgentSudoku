@@ -8,40 +8,24 @@ namespace AgentSudoku
 {
     class Resolver
     {
+        public static int nbRep;
+
         /// <summary>
         /// Tries to resolve the grid in parameter. Returns the solution (or 'null' if no solution is found)
         /// </summary>
         /// <param name="grille"></param>
         public static Grille BackTrackingSearch(Grille grille)
         {
+            nbRep = 0;
             grille.DefinePossibleValuesAllBoxes();
             return Recursive_Backtracking_Search(grille);
-            
-        }
-
-        /// <summary>
-        /// Trie le dictionnaire de Grilles par ordre croissant de la valeur int
-        /// </summary>
-        /// <param name="dictionary"></param>
-        private static Dictionary<Grille, int> sortDictionary(Dictionary<Grille, int> dictionary)
-        {
-            Dictionary<Grille, int> sortedDictionary = new Dictionary<Grille, int>();
-
-            var items = from pair in dictionary
-                        orderby pair.Value ascending
-                        select pair;
-
-            // Display results.
-            foreach (KeyValuePair<Grille, int> pair in items)
-            {
-                sortedDictionary.Add(pair.Key, pair.Value);
-            }
-
-            return sortedDictionary;
         }
 
         private static Grille Recursive_Backtracking_Search(Grille grille)
         {
+            nbRep++;
+
+            //Test d'objectif
             if (grille.IsComplete())
                 return grille;
 
@@ -67,16 +51,18 @@ namespace AgentSudoku
                 compteur++;
             }
 
-            //Si aucune valeur ne mève à une solution satisfaisante, on arrête d'explorer la branche.
+            //Si aucune valeur ne mène à une solution satisfaisante, on 
+            //arrête d'explorer la branche.
             if (MRV == 0)
             {
                 return null;
             }
 
-            //On créé les noeuds 
+            //On créé les noeuds enfants
             Dictionary<Grille, int> dic = new Dictionary<Grille, int>();
 
             List<Grille> grilles = new List<Grille>();
+            //Pour chaque valeur possible de la case, on calcule le nombre de contraintes ajoutées
             foreach (int valeur in tempGrille.cases[indexLeastMRV].PossibleValues)
             {
                 Grille nextGrille = new Grille(tempGrille);
@@ -88,8 +74,10 @@ namespace AgentSudoku
                 dic.Add(nextGrille, nbConstraintsAdded);
             }
 
+            //On les trie en fonction du nombre de contraintes ajoutées
             sortDictionary(dic);
 
+            //Création des noeuds enfants
             foreach (KeyValuePair<Grille, int> pair in dic)
             {
                 Grille result = Recursive_Backtracking_Search(pair.Key);
@@ -101,5 +89,27 @@ namespace AgentSudoku
 
             return null;
         }
+
+        /// <summary>
+        /// Trie le dictionnaire de Grilles par ordre croissant de la valeur int
+        /// </summary>
+        private static Dictionary<Grille, int> sortDictionary(Dictionary<Grille, int> dictionary)
+        {
+            Dictionary<Grille, int> sortedDictionary = new Dictionary<Grille, int>();
+
+            var items = from pair in dictionary
+                        orderby pair.Value ascending
+                        select pair;
+
+            // Display results.
+            foreach (KeyValuePair<Grille, int> pair in items)
+            {
+                sortedDictionary.Add(pair.Key, pair.Value);
+            }
+
+            return sortedDictionary;
+        }
+
+        
     }
 }
